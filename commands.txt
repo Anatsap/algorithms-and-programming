@@ -1,0 +1,12 @@
+python -m venv lab1
+.\lab1\Scripts\activate
+pip list
+pip install requests
+python request_example.py
+deactivate
+python request_example.py
+PS C:\Users\User\A&P\Lab1> python request_example.py
+Traceback (most recent call last):
+  File "C:\Users\User\A&P\Lab1\request_example.py", line 1, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests
