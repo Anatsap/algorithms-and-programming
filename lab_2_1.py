@@ -16,6 +16,6 @@ while x <= b :
         result = atan(1/x)
     print(f"x = {x:.2f}")
     x += h
-    x = round(x, 2s)
+    x = round(x, 2)
     print((x))
     
