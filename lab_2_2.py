@@ -17,4 +17,7 @@ while x <= (b + 1e-8):
     print("sum:", result, "x:", x)
 
     x+=h
+    x = round(x, 2)
+    print((x))
+
         
