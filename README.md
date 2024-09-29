@@ -6,4 +6,4 @@
 
 
 ### Блок-схема до алгоритму 1
-![schema1](/assets/lab3.drawio.png)
+![schema1](/assets/lab3.drawio)
