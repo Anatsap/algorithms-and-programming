@@ -1,50 +1,84 @@
-class WaterPump:
+from enum import Enum, auto
 
-    def __init__(self, power_consumption=0, brand="", volume_ph=0, price=0, name=""):
-        self.__power_consumption = power_consumption 
-        self.__brand = brand
-        self.__volume_ph = volume_ph
-        self.price = price
-        self.name = name
-
-
-    
-    def get_power_consumption(self):
-        return self.__power_consumption
-
-    def get_brand(self):
-        return self.__brand
-
-    def get_volume_ph(self):
-        return self.__volume_ph
+class Brand(Enum):
+    BMW = auto()
+    Fiat = auto()
+    Ford = auto()
+    Kia = auto()
+    Porsche = auto()
 
 
+class Car:
+    def __init__ (self, brand, age, maxSpeed, horsePower):
+        self.brand = brand
+        self.age = age
+        self.maxSpeed = maxSpeed
+        self.horsePower = horsePower
 
-    def __str__(self):
-        return f"{self.__power_consumption}, {self.__brand}, {self.__volume_ph}, {self.price}, {self.name}"
-
-    def __repr__(self):
-        return f"WaterPump(power_consumption='{self.__power_consumption}', brand='{self.__brand}', volume_ph='{self.__volume_ph}', price='{self.price}', name='{self.name}')"
-
-
-    def __del__ (self):
-        print("WaterPump destroyed")
-
-
-def main():
-    waterpump_default = WaterPump()
-    waterpump_ultra = WaterPump(480, "Amio", 80, 3000, "Water pump superultra")
-    waterpump_samsung = WaterPump(500, "Samsung", 100, 4500, "Water pump FE23")
-    waterpumps = [waterpump_default, waterpump_ultra, waterpump_samsung]
-    for waterpump in waterpumps:
-        print("Using string: ", str(waterpump))
-        print("Using repr: ", repr(waterpump))
+class Parking:
     
 
+    def __init__(self, max_capacity, cost_per_hour):
+        self.cars = []
+        self.time_table = {}
+        self.history = []
+        self.max_capacity = max_capacity
+        self.cost_per_hour = cost_per_hour
+
+    def parkCar(self, car, start_hour):
+
+        if len(self.cars) >= self.max_capacity:
+            print("Parking is full!")
+        else:
+            self.cars.append(car)
+            self.time_table[car] = start_hour
+
+    def leaveParking(self, car, end_hour):
+        self.cars.remove(car)
+        start_hour = self.time_table.pop(car)
+        record = (car, start_hour, end_hour)
+        self.history.append(record)
+
+    def profit(self):
+
+        
+        sorted_history = sorted(self.history, key=lambda record: record[2] - record[1])   
+        print(sorted_history)
+
+        for record in sorted_history:
+            print((record[2] - record[1])*self.cost_per_hour)
+    
+
+    def __del__(self):
+        print("Parking is closed!")
+    
+
+       
 if __name__ == "__main__":
-    main()
-    
-    
+    car1 = Car(Brand.BMW, 5, 280, 10)
+    car2 = Car(Brand.Fiat, 2, 140, 12)
+    car3 = Car(Brand.Ford, 7, 180, 4)
+    car4 = Car(Brand.Kia, 12, 120, 3)
+    car5 = Car(Brand.Porsche, 1, 300, 12)
+    car6 = Car(Brand.Kia, 19, 270, 5)
+
+    parking = Parking(5, 30)
+    parking.parkCar(car1, 7)
+    parking.parkCar(car2, 6)
+    parking.parkCar(car3, 8)
+    parking.parkCar(car4, 5)
+    parking.parkCar(car5, 15)
+    parking.leaveParking(car1, 23)
+    parking.leaveParking(car2, 20)
+    parking.leaveParking(car3, 22)
+    parking.leaveParking(car4, 11)
+    parking.leaveParking(car5, 19)
+    parking.profit()
+
+
+
+        
+
 
 
 
