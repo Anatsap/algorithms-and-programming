@@ -9,18 +9,19 @@ class Brand(Enum):
 
 
 class Car:
-    def __init__ (self, brand, age, maxSpeed, horsePower):
+    def __init__ (self, brand, age, maxSpeed, horsePower, plate):
         self.brand = brand
         self.age = age
         self.maxSpeed = maxSpeed
         self.horsePower = horsePower
+        self.__plate = plate
 
 class Parking:
     
 
     def __init__(self, max_capacity, cost_per_hour):
         self.cars = []
-        self.time_table = {}
+        self.time_table = {}        
         self.history = []
         self.max_capacity = max_capacity
         self.cost_per_hour = cost_per_hour
@@ -38,7 +39,6 @@ class Parking:
         start_hour = self.time_table.pop(car)
         record = (car, start_hour, end_hour)
         self.history.append(record)
-
     def profit(self):
 
         
