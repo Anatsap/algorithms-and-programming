@@ -1,4 +1,5 @@
 from enum import Enum, auto
+from datetime import datetime, timedelta
 
 class Brand(Enum):
     BMW = auto()
@@ -16,10 +17,22 @@ class Car:
         self.horsePower = horsePower
         self.__plate = plate
 
+
+    def get_plate(self):
+        return self.__plate
+    def __str__(self):
+        return f"{self.brand}, {self.age}, {self.maxSpeed}, {self.horsePower}, {self.__plate}\n"
+
+    def __repr__(self):
+        return f"Car(brand='{self.brand}', age='{self.age}', maxSpeed='{self.maxSpeed}', horsePower='{self.horsePower}', plate='{self.__plate}')\n"
+
+
 class Parking:
     
 
-    def __init__(self, max_capacity, cost_per_hour):
+    def __init__(self, max_capacity, cost_per_hour, max_speed, price_increase):
+        self.price_increase = price_increase
+        self.max_speed = max_speed
         self.cars = []
         self.time_table = {}        
         self.history = []
@@ -39,14 +52,18 @@ class Parking:
         start_hour = self.time_table.pop(car)
         record = (car, start_hour, end_hour)
         self.history.append(record)
+
     def profit(self):
 
         
         sorted_history = sorted(self.history, key=lambda record: record[2] - record[1])   
-        print(sorted_history)
 
         for record in sorted_history:
-            print((record[2] - record[1])*self.cost_per_hour)
+            price = (record[2] - record[1]).total_seconds() / 3600 * self.cost_per_hour
+            
+            if record[0].maxSpeed > self.max_speed :
+                price = price + 0.01 * price * self.price_increase
+            print(price)
     
 
     def __del__(self):
@@ -55,25 +72,29 @@ class Parking:
 
        
 if __name__ == "__main__":
-    car1 = Car(Brand.BMW, 5, 280, 10)
-    car2 = Car(Brand.Fiat, 2, 140, 12)
-    car3 = Car(Brand.Ford, 7, 180, 4)
-    car4 = Car(Brand.Kia, 12, 120, 3)
-    car5 = Car(Brand.Porsche, 1, 300, 12)
-    car6 = Car(Brand.Kia, 19, 270, 5)
+    car1 = Car(Brand.BMW, 5, 280, 10, 9999)
+    car2 = Car(Brand.Fiat, 2, 140, 12, 8976)
+    car3 = Car(Brand.Ford, 7, 180, 4, 9076)
+    car4 = Car(Brand.Kia, 12, 120, 3, 3040)
+    car5 = Car(Brand.Porsche, 1, 300, 12, 2024)
+    car6 = Car(Brand.Kia, 19, 270, 5, 7588)
 
-    parking = Parking(5, 30)
-    parking.parkCar(car1, 7)
-    parking.parkCar(car2, 6)
-    parking.parkCar(car3, 8)
-    parking.parkCar(car4, 5)
-    parking.parkCar(car5, 15)
-    parking.leaveParking(car1, 23)
-    parking.leaveParking(car2, 20)
-    parking.leaveParking(car3, 22)
-    parking.leaveParking(car4, 11)
-    parking.leaveParking(car5, 19)
+    parking = Parking(5, 30, 150, 10)
+    parking.parkCar(car1, datetime.fromisoformat('2024-10-26 00:05:23'))
+    parking.parkCar(car2, datetime.fromisoformat('2024-10-05 00:11:20'))
+    parking.parkCar(car3, datetime.fromisoformat('2024-10-12 00:19:28'))
+    parking.parkCar(car4, datetime.fromisoformat('2024-11-07 00:08:03'))
+    parking.parkCar(car5, datetime.fromisoformat('2024-12-13 00:16:54'))
+    parking.leaveParking(car1, datetime.fromisoformat('2024-10-29 00:19:20'))
+    parking.leaveParking(car2, datetime.fromisoformat('2024-10-12 00:07:39'))
+    parking.leaveParking(car3, datetime.fromisoformat('2024-11-03 00:10:09'))
+    parking.leaveParking(car4, datetime.fromisoformat('2024-12-01 00:22:22'))
+    parking.leaveParking(car5, datetime.fromisoformat('2024-12-28 00:18:46'))
+
     parking.profit()
+
+
+    
 
 
 
