@@ -6,8 +6,17 @@ matrix = [
     [-2, -7, -1, -9, 0],
     [13, 61, 60, 42, -10],
     [1, 0, 4, 0, 16],
+    [1, 0, 4, 0, 16],
+
 ]
 
+def sort(func):
+    def sort_matrix(matrix):
+        func(matrix)
+        return matrix
+    return sort_matrix
+
+@sort
 def selectionSort(array2d):
     
     for col in range(len(array2d[0])):  
