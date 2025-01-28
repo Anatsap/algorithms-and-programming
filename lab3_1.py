@@ -1,3 +1,7 @@
+import numpy as np
+
+np.array()
+
 def find_even_index(arr):
     for index in range(len(arr)):
         a = arr[1+index:]
